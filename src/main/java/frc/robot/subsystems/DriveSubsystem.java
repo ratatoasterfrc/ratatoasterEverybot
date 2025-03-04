@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 
@@ -21,6 +24,11 @@ public class DriveSubsystem extends SubsystemBase {
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
 
+  SparkClosedLoopController leftController;
+  SparkClosedLoopController rightController;
+
+
+
   private final DifferentialDrive drive;
 
   /**
@@ -32,6 +40,11 @@ public class DriveSubsystem extends SubsystemBase {
     leftFollower = new SparkMax(DriveConstants.LEFT_FOLLOWER_ID, MotorType.kBrushed);
     rightLeader = new SparkMax(DriveConstants.RIGHT_LEADER_ID, MotorType.kBrushed);
     rightFollower = new SparkMax(DriveConstants.RIGHT_FOLLOWER_ID, MotorType.kBrushed);
+
+    leftController = leftLeader.getClosedLoopController();
+    rightController = rightLeader.getClosedLoopController();
+
+
 
     // set up differential drive class
     drive = new DifferentialDrive(leftLeader, rightLeader);

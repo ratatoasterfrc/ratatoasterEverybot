@@ -41,7 +41,8 @@ public class ArmDownCommand extends Command {
   // When the next command is caled it will override this command
   @Override
   public void end(boolean interrupted) {
-    m_arm.runArm(ArmConstants.ARM_HOLD_DOWN);
+    // m_arm.runArm(ArmConstants.ARM_HOLD_DOWN); //CSA: Was ARM_HOLD_DOWN, since this value is not 0, I believe its causing your arm to keep moving
+  m_arm.runArm(0.0);
   }
 
   // Returns true when the command should end.

@@ -40,7 +40,8 @@ public class ArmUpCommand extends Command {
   // not drop due to gravity.
   @Override
   public void end(boolean interrupted) {
-    m_arm.runArm(ArmConstants.ARM_HOLD_UP);
+    // m_arm.runArm(ArmConstants.ARM_HOLD_UP);//CSA: Was ARM_HOLD_UP, since this value is not 0, I believe its causing your arm to keep moving
+    m_arm.runArm(0.0);
   }
 
   // Returns true when the command should end.

@@ -14,8 +14,7 @@ public class SimpleCoralAuto extends Command {
     private ArmSubsystem m_arm;
     private Timer timer;
     private double drive_seconds = 3.25;
-    private double exjest_seconds = 4.5;
-
+    private double exjest_seconds = 4.5; 
     /**
      * This auto will have the robot drive forwards, stop, then drop the coral into L1
      * 
@@ -83,6 +82,7 @@ public class SimpleCoralAuto extends Command {
     // stop drive motors
     m_drive.driveArcade(0.0, 0.0, false);
     m_roller.runRoller(0);
+    m_arm.runArm(0.0);
     timer.stop();
   }
 

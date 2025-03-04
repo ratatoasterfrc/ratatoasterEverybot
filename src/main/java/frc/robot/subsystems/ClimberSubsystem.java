@@ -7,21 +7,23 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
 
     private final SparkMax climbMotor;
-
+    private final DigitalInput climbSensor;
+    boolean HaveCage;
     /**
      * This subsytem that controls the climber.
      */
     public ClimberSubsystem () {
 
     // Set up the climb motor as a brushless motor
-    climbMotor = new SparkMax(ClimberConstants.CLIMBER_MOTOR_ID, MotorType.kBrushless);
-
+    climbMotor = new SparkMax(ClimberConstants.CLIMBER_MOTOR_ID, MotorType.kBrushed);
+         
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
@@ -36,10 +38,18 @@ public class ClimberSubsystem extends SubsystemBase {
     climbConfig.smartCurrentLimit(ClimberConstants.CLIMBER_MOTOR_CURRENT_LIMIT);
     climbConfig.idleMode(IdleMode.kBrake);
     climbMotor.configure(climbConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // Inside Digital Input port on the roborio(1 through 10)
+    //initialize sensor
+    climbSensor = new DigitalInput(0);
+    HaveCage = false;
+    //dont have cage originally 
     }
 
     @Override
     public void periodic() {
+        checkclimbSensor();
+        //periodic runs 50 times per second
+        //checks climber 50 times per sec
     }
 
     /**
@@ -51,5 +61,14 @@ public class ClimberSubsystem extends SubsystemBase {
     public void runClimber(double speed){
         climbMotor.set(speed);
     }
-
+    public void checkclimbSensor(){
+        HaveCage = !climbSensor.get();
+        // ! flips true or false statement
+        // have cage now equals what the climb sensor has detected
+    }
+    public boolean IsClimberFinished() {
+        return HaveCage;
+        // checks all the time
+        //makes climber numbers public?
+    }
 }
